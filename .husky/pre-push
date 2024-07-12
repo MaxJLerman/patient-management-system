@@ -1,0 +1,6 @@
+echo "Attempting to build.";
+
+npm run build || (
+  echo "Build failed. :()";
+  false;
+)

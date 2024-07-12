@@ -1,0 +1,7 @@
+npm run test || (
+  echo "Tests failed."
+)
+
+echo "Tests passed. Comitting...";
+
+# exit 1 # for testing the hook
