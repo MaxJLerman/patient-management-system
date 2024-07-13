@@ -3,7 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 
 import { cn } from "@/lib/utils";
 
-import "./globals.css";
+import "../styles/globals.css";
 import { ThemeProvider } from "@/styles/ThemeProvider";
 
 const fontSans = Plus_Jakarta_Sans({
