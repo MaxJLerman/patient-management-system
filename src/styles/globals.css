@@ -61,13 +61,6 @@
 
 /* ========================================== PROVIDED TAILWIND STYLES */
 @layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-
   /* Remove scrollbar */
   .remove-scrollbar::-webkit-scrollbar {
     width: 0px;
