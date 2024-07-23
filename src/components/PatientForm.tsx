@@ -9,8 +9,10 @@ import { formSchema, FormType } from "@/schemas/patientForm.schema";
 import { Form } from "@/components/ui/form";
 import { ReusableFormField } from "@/components/ReusableFormField";
 import { SubmitButton } from "./SubmitButton";
+import { createUser } from "@/database/actions/patient.actions";
 
 export const PatientForm = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const form = useForm<FormType>({
@@ -27,6 +29,9 @@ export const PatientForm = () => {
 
     try {
       const userData = { name, email, phone };
+      const user = await createUser(userData);
+
+      if (user) router.push(`/patients/${user.$id}/register`);
     } catch (error) {
       console.log(error);
     }
