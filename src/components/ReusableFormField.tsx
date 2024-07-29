@@ -3,7 +3,6 @@ import { Control, ControllerRenderProps } from "react-hook-form";
 import { FormType } from "@/schemas/patientForm.schema";
 import { FieldType } from "@/types/FieldType.type";
 import {
-  FormControl,
   FormDescription,
   FormField,
   FormItem,
@@ -20,6 +19,7 @@ interface Props {
   placeholder?: string;
   iconSrc?: string;
   iconAlt?: string;
+  value?: string;
   description?: string; //? might not need
   errorMessage?: string; //? might not need
   disabled?: boolean;
@@ -37,6 +37,7 @@ export const ReusableFormField = ({
   placeholder,
   iconSrc,
   iconAlt,
+  value,
   description,
   errorMessage,
   disabled,
@@ -57,8 +58,17 @@ export const ReusableFormField = ({
             fieldType={fieldType}
             iconSrc={iconSrc}
             iconAlt={iconAlt}
+            value={value}
+            name={name}
+            label={label}
             placeholder={placeholder}
-          />
+            disabled={disabled}
+            dateFormat={dateFormat}
+            showTimeSelect={showTimeSelect}
+            renderSkeleton={renderSkeleton}
+          >
+            {children}
+          </RenderField>
           <FormDescription>{description}</FormDescription>
           <FormMessage className={"shad-errore"} />
         </FormItem>

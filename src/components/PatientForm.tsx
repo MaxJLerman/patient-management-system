@@ -5,7 +5,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 
-import { formSchema, FormType } from "@/schemas/patientForm.schema";
+import {
+  FormType,
+  reducedFormSchema,
+  PickFormType,
+} from "@/schemas/patientForm.schema";
 import { Form } from "@/components/ui/form";
 import { ReusableFormField } from "@/components/ReusableFormField";
 import { SubmitButton } from "./SubmitButton";
@@ -16,7 +20,7 @@ export const PatientForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const form = useForm<FormType>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(reducedFormSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -24,7 +28,7 @@ export const PatientForm = () => {
     },
   });
 
-  const onSubmit = async ({ name, email, phone }: FormType) => {
+  const onSubmit = async ({ name, email, phone }: PickFormType) => {
     setIsLoading(true);
 
     try {
