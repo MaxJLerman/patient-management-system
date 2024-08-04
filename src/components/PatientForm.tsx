@@ -9,7 +9,7 @@ import {
   FormType,
   reducedFormSchema,
   PickFormType,
-} from "@/schemas/patientForm.schema";
+} from "@/schemas/patientForm.schemas";
 import { Form } from "@/components/ui/form";
 import { ReusableFormField } from "@/components/ReusableFormField";
 import { SubmitButton } from "./SubmitButton";

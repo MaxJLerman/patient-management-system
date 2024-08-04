@@ -1,6 +1,6 @@
 import { Control, ControllerRenderProps } from "react-hook-form";
 
-import { FormType } from "@/schemas/patientForm.schema";
+import { FormType } from "@/schemas/patientForm.schemas";
 import { FieldType } from "@/types/FieldType.type";
 import {
   FormDescription,
@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RenderField } from "./RenderInput";
+import { z } from "zod";
 
 interface Props {
   control: Control<FormType>;
@@ -54,6 +55,7 @@ export const ReusableFormField = ({
         <FormItem className={"flex-1"}>
           {fieldType !== "checkbox" && label && <FormLabel>{label}</FormLabel>}
           <RenderField
+            // @ts-ignore //! come back later when I can be bothered to figure out how to fix this ts error
             field={field}
             fieldType={fieldType}
             iconSrc={iconSrc}

@@ -10,12 +10,13 @@ import { formSchema, FormType } from "@/schemas/patientForm.schemas";
 import { Form, FormControl } from "@/components/ui/form";
 import { ReusableFormField } from "@/components/ReusableFormField";
 import { SubmitButton } from "./SubmitButton";
-import { createUser } from "@/database/actions/patient.actions";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Doctors, GenderOptions, IdentificationTypes } from "@/constants";
 import { Label } from "./ui/label";
 import { SelectItem } from "./ui/select";
 import { FileUploader } from "./FileUploader";
+import { Patient } from "@/types/appwrite.types";
+import { registerPatient } from "@/database/actions/patient.actions";
 
 interface Props {
   user: User;
@@ -37,17 +38,48 @@ export const RegisterForm = ({ user }: Props) => {
       occupation: "",
       emergencyContactName: "",
       emergencyContactNumber: "",
+      primaryPhysician: "",
+      insuranceProvider: "",
+      insurancePolicyNumber: "",
+      allergies: "",
+      currentMedication: "",
+      familyMedicalHistory: "",
+      pastMedicalHistory: "",
+      identificationType: "",
+      identificationNumber: "",
+      identificationDocument: [],
     },
   });
 
-  const onSubmit = async ({ name, email, phone }: FormType) => {
+  const onSubmit = async (values: FormType) => {
     setIsLoading(true);
 
-    try {
-      const userData = { name, email, phone };
-      const user = await createUser(userData);
+    let formData;
+    if (
+      values.identificationDocument &&
+      values.identificationDocument.length > 0
+    ) {
+      const blobFile = new Blob([values.identificationDocument[0]], {
+        type: values.identificationDocument[0].type,
+      });
 
-      if (user) router.push(`/patients/${user.$id}/register`);
+      formData = new FormData();
+      formData.append("blobFile", blobFile);
+      formData.append("fileName", values.identificationDocument[0].name);
+    }
+
+    try {
+      const patientData = {
+        ...values,
+        userId: user.$id,
+        birthDate: new Date(values.birthDate),
+        identificationDocument: formData,
+      };
+
+      // @ts-ignore //! come back later, patientData should be type Patient
+      const patient = await registerPatient(patientData);
+
+      if (patient) router.push(`/patients/${user.$id}/new-appointment`);
     } catch (error) {
       console.log(error);
     }
@@ -59,7 +91,7 @@ export const RegisterForm = ({ user }: Props) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-12 flex-1"
       >
-        <section className={"space-y-4"}>
+        {/* <section className={"space-y-4"}>
           <h1 className={"header"}>Welcome!</h1>
           <p className={"text-dark-700"}>Tell us more about yourself.</p>
         </section>
@@ -122,7 +154,10 @@ export const RegisterForm = ({ user }: Props) => {
                   {GenderOptions.map((option) => (
                     <div key={option} className={"radio-group"}>
                       <RadioGroupItem value={option} id={option} />
-                      <Label htmlFor={option} className={"cursor-pointer"}>
+                      <Label
+                        htmlFor={option}
+                        className={"cursor-pointer capitalize"}
+                      >
                         {option}
                       </Label>
                     </div>
@@ -252,7 +287,7 @@ export const RegisterForm = ({ user }: Props) => {
           placeholder={"Select identification type"}
         >
           {IdentificationTypes.map((type) => (
-            <SelectItem key={type} value={type}>
+            <SelectItem key={type} value={type} className={"cursor-pointer"}>
               {type}
             </SelectItem>
           ))}
@@ -300,7 +335,7 @@ export const RegisterForm = ({ user }: Props) => {
           fieldType={"checkbox"}
           name={"privacyConsent"}
           label={"I agree with the privacy policy"}
-        />
+        /> */}
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
     </Form>

@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import { CheckedState } from "@radix-ui/react-checkbox";
 
 import { FieldType } from "@/types/FieldType.type";
-import { FormType } from "@/schemas/patientForm.schema";
+import { FormType } from "@/schemas/patientForm.schemas";
 import { FormControl } from "./ui/form";
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
@@ -110,11 +110,8 @@ export const RenderField = ({
           />
           <FormControl>
             <DatePicker
-              // selected={field.value}
+              selected={field.value as Date}
               onChange={(date) => field.onChange(date)}
-              dateFormat={dateFormat ?? "DD/MM/YYYY"}
-              showTimeInput={showTimeSelect ?? false}
-              timeInputLabel={"Time:"} //? maybe include whitespace after colon
               wrapperClassName={"date-picker"}
             />
           </FormControl>

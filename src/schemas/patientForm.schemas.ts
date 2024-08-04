@@ -10,7 +10,7 @@ export const formSchema = z.object({
     .string()
     .refine(
       (phone) => /^\+?[1-9]\d{1,14}$/.test(phone),
-      "Invalid phpone number",
+      "Invalid phone number",
     ),
   birthDate: z.coerce.date(),
   gender: z.enum(["Male", "Female", "Other"], {
